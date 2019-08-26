@@ -1,1 +1,44 @@
+Servlet是运行在服务端的java小程序，用来处理客户端请求  响应给浏览器的动态资源
+Servlet是javaWeb三大组件之一（Servlet，Filter,Listener）
+编写一个Servlet:
+  继承HttpServlet,重写doGet和doPost方法
+  在web.xml进行配置
+web.xml 配置：
+<servlet>   注册servlet
+  <servlet-name>  servlet名称，当前xml中唯一
+  <servlet-class>  servlet实现类的全限定类名
+<servlet-mapping>  给注册的servlet添加映射路径
+  <servlet-name>  已经注册的servlet 名称。 必须与注册的名称一致
+  <url-pattern>  访问路径。 必须以/ 开头
+例子：
+<servlet>
+  <servlet-name>helloServlet</servlet-name>
+  <servlet-class>com.demo.HelloServlet</servlet>
+</servlet>
+<servlet-mapping>
+  <servlet-name>helloServlet</servlet-name>
+  <url_pattern>/hello</url-pattern>
+</servlet-mapping>
+浏览器访问：http://ip:端口/项目名/hello   就能访问到HelloServlet 这个servlet
 
+url-pattern的配置方式
+  1：完全路径匹配：以 / 开始 例如：/ServletDemo4,   /aaa/ServletDemo5 ,   /aaa/bbb/ServletDemo6
+  2：目录匹配：以/开始 以*结束。例如：/*,/aaa/* , /aaa/bbb/*,
+  3:扩展名匹配：以*开始。例如：*.do, *.action, *.jsp,*.jsp    注意不能以/开始
+  4：缺省路径：/   通常情况 访问html页面时，首先从当前web项目的 web.xml文件中找寻匹配路径，如果没有找到再从tomcat默认的web.xml匹配，使用缺省servlet
+  tomcat获得匹配路径时优先级顺序：1>2>3>4
+开发中的路径编写：
+  相对路径：都是需要找位置相对关系，不能以 / 开始  例如：  ./ 当前路径  ../上一级目录
+  绝对路径：不需要找位置对应关系。以/开始的
+    绝对路径中分为客户端路径和服务器端路径：
+      客户端路径一定要加工程名。   /工程名/ServletDemo
+      服务器端路径不需要加工程名。 /ServletDemo
+  绝对路径和相对路径都是相对项目的根目录说的
+ServletContext:读取WEB工程下的文件
+  ServletContext对象，Tomcat为每个web 项目单独创建的一个上下文（知上知下贯穿全文）对象，有如下功能
+    可以在多个servlet之间共享数据
+      存放：setAttribute()
+      获得：getAttribute()
+      删除：removeAttribute()
+    可以获得当前WEB项目中的指定资源（文件）
+    可以进行整个web 项目初始化数据设置
